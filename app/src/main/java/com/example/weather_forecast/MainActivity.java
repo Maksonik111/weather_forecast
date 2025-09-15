@@ -122,6 +122,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
+            if(result == null){
+                display.setText("Нет данных!");
+                display2.setText("Возможно ошибка в городе!");
+                Toast.makeText(MainActivity.this,"Ошибка соединения", Toast.LENGTH_LONG).show();
+
+                return;
+            }
+
             try {
                 JSONObject obj = new JSONObject(result);
 
@@ -132,10 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject firstWeather = weatherArray.getJSONObject(0);
                     String description = firstWeather.getString("description");
                     display2.setText(description);
-
                 }
-
-                display2.setText(obj.getJSONObject("weather").getString("main"));
 
             } catch (JSONException e) {
                 e.printStackTrace();
